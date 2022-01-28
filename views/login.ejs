@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <form>
+    <input type="text" name="username" id="username" placeholder="username">
+    <input type="password" name="password" id="password" placeholder="password">
+    <button type="button" id="btn">Login</button>
+
+  </form>
+  <button id="getDataBtn">CLICK TO GET DATA</button>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<script>
+  $("#btn").click(function() {
+    const username = $("#username").val();
+    const password = $("#password").val();
+    $.ajax({
+      url: "/login",
+      type: "POST",
+      data: {
+        username,
+        password
+      }
+    }).then(data => {
+      localStorage.setItem("token", data)
+      console.log(data)
+    }).catch(error => console.log(error))
+  })
+  // $("#getDataBtn").click(() => {
+  //   $.ajax({
+  //     url: "/data",
+  //     type: "get",
+  //     data: {
+  //       token: localStorage.getItem("token")
+  //     },
+  //     headers: {
+  //       authorization: localStorage.getItem("token")
+  //     }
+  //   }).then((data) => {
+  //     console.log(data)
+  //   }).catch(error => console.log(error))
+  // })
+  function getData() {
+    fetch("/data", {
+      method: "get",
+      headers: {
+        authorization: localStorage.getItem("token")
+      },
+    }).then(res => res.json()).then(data => console.log(data)).catch(error => console.log(error))
+  }
+  document.querySelector("#getDataBtn").addEventListener("click", function() {
+    getData()
+  })
+</script>
+
+</html>

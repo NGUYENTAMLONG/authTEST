@@ -1,0 +1,18 @@
+POST http://localhost:3001/auth/register
+content-type: application/json
+
+{
+    "username": "otarebi",
+    "password": "123456"
+}
+###
+POST http://localhost:3001/auth/login
+content-type: application/json
+
+{
+    "username": "otarebi",
+    "password": "123456"
+}
+###
+POST http://localhost:3001/auth/private
+content-type: application/json
